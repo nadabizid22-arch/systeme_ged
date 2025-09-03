@@ -34,20 +34,20 @@ Il permet :
 ---
 
 ## 📂 Structure du projet
-'ged_project/'
+ged_project/
 backend/
-  main.py # API FastAPI
-  database.py # Connexion Oracle
-  auth.py # Authentification JWT
-  uploads/ # Stockage local des fichiers
+  main.py 
+  database.py
+  auth.py 
+  uploads/ 
 
  frontend/
-  login.html # Page de connexion
-  upload.html # Page d’upload
-  search.html # Page de recherche
+  login.html 
+  upload.html 
+  search.html 
 
- tables.sql # Script SQL pour créer les tables
- README.md # Documentation
+ tables.sql 
+ README.md 
 ## ⚙️ Installation
 
 ### 1. Base de données Oracle
