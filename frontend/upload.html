@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Upload - Système GED</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --light-color: #ecf0f1;
+      --dark-color: #34495e;
+      --success-color: #27ae60;
+      --warning-color: #f39c12;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+      flex: 1;
+    }
+    
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: var(--box-shadow);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: var(--border-radius);
+      transition: background-color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .nav-links a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .main-title {
+      margin: 20px 0;
+      color: var(--primary-color);
+      text-align: center;
+    }
+    
+    .upload-container {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      box-shadow: var(--box-shadow);
+      margin-bottom: 30px;
+    }
+    
+    .upload-title {
+      margin-bottom: 25px;
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--light-color);
+      padding-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .form-group {
+      margin-bottom: 25px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark-color);
+    }
+    
+    .file-upload-area {
+      border: 2px dashed #ccc;
+      border-radius: var(--border-radius);
+      padding: 30px;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+    
+    .file-upload-area:hover {
+      border-color: var(--secondary-color);
+      background-color: rgba(52, 152, 219, 0.05);
+    }
+    
+    .file-upload-area i {
+      font-size: 3rem;
+      color: var(--secondary-color);
+      margin-bottom: 15px;
+    }
+    
+    .file-upload-area h3 {
+      color: var(--dark-color);
+      margin-bottom: 10px;
+    }
+    
+    .file-upload-area p {
+      color: #777;
+      margin-bottom: 15px;
+    }
+    
+    .file-upload-area input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    
+    .btn {
+      padding: 12px 25px;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .btn-primary {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background-color: var(--light-color);
+      color: var(--dark-color);
+    }
+    
+    .btn-secondary:hover {
+      background-color: #dde4e6;
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 10px;
+      justify-content: flex-end;
+    }
+    
+    textarea {
+      width: 100%;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      resize: vertical;
+      min-height: 120px;
+      font-family: monospace;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+    
+    .message {
+      padding: 15px;
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      display: none;
+    }
+    
+    .message.success {
+      background-color: rgba(39, 174, 96, 0.1);
+      border: 1px solid var(--success-color);
+      color: var(--success-color);
+      display: block;
+    }
+    
+    .message.error {
+      background-color: rgba(231, 76, 60, 0.1);
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+      display: block;
+    }
+    
+    .file-preview {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #eee;
+      border-radius: var(--border-radius);
+      background-color: #f9f9f9;
+    }
+    
+    .file-preview h4 {
+      margin-bottom: 10px;
+      color: var(--dark-color);
+    }
+    
+    .file-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .file-info i {
+      color: var(--secondary-color);
+      font-size: 1.5rem;
+    }
+    
+    .file-details {
+      flex: 1;
+    }
+    
+    .file-name {
+      font-weight: 600;
+      color: var(--primary-color);
+    }
+    
+    .file-size {
+      font-size: 0.9rem;
+      color: #777;
+    }
+    
+    .navigation-links {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    
+    .nav-link {
+      padding: 10px 20px;
+      background-color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      text-decoration: none;
+      color: var(--dark-color);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    
+    .nav-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      color: var(--secondary-color);
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      color: #777;
+      border-top: 1px solid #eee;
+      background-color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .form-actions {
+        flex-direction: column;
+      }
+      
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-archive"></i>
+        <span>Système GED</span>
+      </div>
+      <div class="nav-links">
+        <a href="search.html">
+          <i class="fas fa-search"></i>
+          Recherche
+        </a>
+        <a href="#" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i>
+          Déconnexion
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="main-title">Uploader un document</h1>
+    
+    <div class="upload-container">
+      <h2 class="upload-title">
+        <i class="fas fa-cloud-upload-alt"></i>
+        Formulaire d'envoi
+      </h2>
+      
+      <form id="uploadForm" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="file">Sélectionner un fichier :</label>
+          <div class="file-upload-area">
+            <i class="fas fa-file-upload"></i>
+            <h3>Glissez-déposez votre fichier ici</h3>
+            <p>ou</p>
+            <span class="btn btn-secondary">Parcourir les fichiers</span>
+            <input type="file" id="file" name="file" required>
+          </div>
+          <div id="filePreview" class="file-preview" style="display: none;">
+            <h4>Fichier sélectionné :</h4>
+            <div class="file-info">
+              <i class="fas fa-file-pdf"></i>
+              <div class="file-details">
+                <div class="file-name" id="fileName">Aucun fichier sélectionné</div>
+                <div class="file-size" id="fileSize">-</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="metadata">Métadonnées (JSON) :</label>
+          <textarea id="metadata" name="metadata" placeholder='{"auteur": "Votre nom", "departement": "IT", "projet": "Nom du projet"}'>{"auteur": "", "departement": "", "competance": ""}</textarea>
+        </div>
+        
+        <div class="form-actions">
+          <button type="reset" class="btn btn-secondary">
+            <i class="fas fa-redo"></i>
+            Réinitialiser
+          </button>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-upload"></i>
+            Uploader
+          </button>
+        </div>
+      </form>
+      
+      <div id="message" class="message"></div>
+    </div>
+    
+    <div class="navigation-links">
+      <a href="search.html" class="nav-link">
+        <i class="fas fa-search"></i>
+        Aller à la recherche de documents
+      </a>
+    </div>
+  </div>
+  
+  <footer>
+    <p>© 2025 Système GED - Tous droits réservés</p>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const fileInput = document.getElementById('file');
+      const filePreview = document.getElementById('filePreview');
+      const fileName = document.getElementById('fileName');
+      const fileSize = document.getElementById('fileSize');
+      const messageDiv = document.getElementById('message');
+      
+      // Gestion de l'affichage du fichier sélectionné
+      fileInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+          const file = this.files[0];
+          const fileType = file.type;
+          const size = file.size;
+          
+          // Afficher le preview
+          fileName.textContent = file.name;
+          fileSize.textContent = formatFileSize(size);
+          
+          // Changer l'icône selon le type de fichier
+          const fileIcon = filePreview.querySelector('i');
+          if (fileType.includes('image')) {
+            fileIcon.className = 'fas fa-file-image';
+          } else if (fileType.includes('pdf')) {
+            fileIcon.className = 'fas fa-file-pdf';
+          } else if (fileType.includes('word') || fileType.includes('document')) {
+            fileIcon.className = 'fas fa-file-word';
+          } else if (fileType.includes('excel') || fileType.includes('spreadsheet')) {
+            fileIcon.className = 'fas fa-file-excel';
+          } else if (fileType.includes('zip') || fileType.includes('compressed')) {
+            fileIcon.className = 'fas fa-file-archive';
+          } else {
+            fileIcon.className = 'fas fa-file';
+          }
+          
+          filePreview.style.display = 'block';
+        }
+      });
+      
+      // Fonction pour formater la taille du fichier
+      function formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+      }
+      
+      // Gestion de la soumission du formulaire
+      document.getElementById("uploadForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+        
+        // Cacher les messages précédents
+        messageDiv.className = 'message';
+        messageDiv.style.display = 'none';
+
+        const token = localStorage.getItem("token");
+        if (!token) {
+          alert("Veuillez vous connecter !");
+          window.location.href = "login.html";
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", document.getElementById("file").files[0]);
+        formData.append("created_by", "user"); // remplacé par backend
+        formData.append("metadata", document.getElementById("metadata").value);
+
+        try {
+          const response = await fetch("http://127.0.0.1:8000/upload", {
+            method: "POST",
+            headers: {
+              "Authorization": "Bearer " + token
+            },
+            body: formData
+          });
+
+          const data = await response.json();
+          if (data.status === "success") {
+            messageDiv.textContent = "✅ Document uploadé avec succès ! ID: " + data.doc_id;
+            messageDiv.className = 'message success';
+            messageDiv.style.display = 'block';
+            
+            // Réinitialiser le formulaire après un succès
+            document.getElementById("uploadForm").reset();
+            filePreview.style.display = 'none';
+          } else {
+            messageDiv.textContent = "❌ Erreur : " + data.message;
+            messageDiv.className = 'message error';
+            messageDiv.style.display = 'block';
+          }
+        } catch (error) {
+          messageDiv.textContent = "❌ Erreur réseau : Impossible de contacter le serveur";
+          messageDiv.className = 'message error';
+          messageDiv.style.display = 'block';
+        }
+      });
+      
+      // Gestion de la déconnexion
+      document.getElementById("logoutBtn").addEventListener("click", function(e) {
+        e.preventDefault();
+        localStorage.removeItem("token");
+        window.location.href = "login.html";
+      });
+      
+      // Gestion du drag and drop
+      const dropArea = document.querySelector('.file-upload-area');
+      
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, preventDefaults, false);
+      });
+      
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropArea.addEventListener(eventName, highlight, false);
+      });
+      
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropArea.addEventListener(eventName, unhighlight, false);
+      });
+      
+      function highlight() {
+        dropArea.style.borderColor = '#3498db'; // Correction de l'erreur: remplacement de var(--secondary-color) par la valeur hexadécimale
+        dropArea.style.backgroundColor = 'rgba(52, 152, 219, 0.1)';
+      }
+      
+      function unhighlight() {
+        dropArea.style.borderColor = '#ccc';
+        dropArea.style.backgroundColor = '';
+      }
+      
+      dropArea.addEventListener('drop', handleDrop, false);
+      
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        
+        if (files.length) {
+          fileInput.files = files;
+          const event = new Event('change');
+          fileInput.dispatchEvent(event);
+        }
+      }
+    });
+  </script>
+</body>
+</html>

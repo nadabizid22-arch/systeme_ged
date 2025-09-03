@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recherche - Système GED</title>
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --light-color: #ecf0f1;
+      --dark-color: #34495e;
+      --success-color: #27ae60;
+      --border-radius: 6px;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 1rem 0;
+      box-shadow: var(--box-shadow);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: var(--border-radius);
+      transition: background-color 0.3s;
+    }
+    
+    .nav-links a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .main-title {
+      margin: 20px 0;
+      color: var(--primary-color);
+      text-align: center;
+    }
+    
+    .search-container {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      box-shadow: var(--box-shadow);
+      margin-bottom: 30px;
+    }
+    
+    .search-title {
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--light-color);
+      padding-bottom: 10px;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+      color: var(--dark-color);
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+    }
+    
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+    
+    .btn-primary {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #2980b9;
+    }
+    
+    .btn-secondary {
+      background-color: var(--light-color);
+      color: var(--dark-color);
+    }
+    
+    .btn-secondary:hover {
+      background-color: #dde4e6;
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      justify-content: flex-end;
+    }
+    
+    .results-container {
+      background-color: white;
+      border-radius: var(--border-radius);
+      padding: 25px;
+      box-shadow: var(--box-shadow);
+    }
+    
+    .results-title {
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--light-color);
+      padding-bottom: 10px;
+    }
+    
+    .results-list {
+      list-style: none;
+    }
+    
+    .result-item {
+      padding: 15px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .result-item:hover {
+      background-color: #f9f9f9;
+    }
+    
+    .result-info {
+      flex: 1;
+    }
+    
+    .result-name {
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-bottom: 5px;
+    }
+    
+    .result-meta {
+      font-size: 0.9rem;
+      color: #777;
+    }
+    
+    .result-actions a {
+      color: var(--secondary-color);
+      text-decoration: none;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .result-actions a:hover {
+      color: #2980b9;
+    }
+    
+    .no-results {
+      text-align: center;
+      padding: 20px;
+      color: #777;
+      font-style: italic;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      color: #777;
+      border-top: 1px solid #eee;
+    }
+    
+    @media (max-width: 768px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header-content {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .result-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .result-actions {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo">Système GED</div>
+      <div class="nav-links">
+        <a href="upload.html">Upload</a>
+        <a href="#" id="logoutBtn">Déconnexion</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="main-title">Recherche de documents</h1>
+    
+    <div class="search-container">
+      <h2 class="search-title">Critères de recherche</h2>
+      <form id="searchForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="keyword">Mot-clé :</label>
+            <input type="text" id="keyword" placeholder="Entrez un mot-clé">
+          </div>
+          
+          <div class="form-group">
+            <label for="created_by">Auteur :</label>
+            <input type="text" id="created_by" placeholder="Nom de l'auteur">
+          </div>
+          
+          <div class="form-group">
+            <label for="meta_key">Clé métadonnée :</label>
+            <input type="text" id="meta_key" placeholder="Ex: département, projet, etc.">
+          </div>
+          
+          <div class="form-group">
+            <label for="meta_value">Valeur métadonnée :</label>
+            <input type="text" id="meta_value" placeholder="Valeur correspondante">
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="reset" class="btn btn-secondary">Réinitialiser</button>
+          <button type="submit" class="btn btn-primary">Rechercher</button>
+        </div>
+      </form>
+    </div>
+    
+    <div class="results-container">
+      <h3 class="results-title">Résultats</h3>
+      <ul id="results" class="results-list">
+        <li class="no-results">Aucune recherche effectuée</li>
+      </ul>
+    </div>
+  </div>
+  
+  <footer>
+    <p>© 2025 Système GED - Tous droits réservés</p>
+  </footer>
+
+  <script>
+    document.getElementById("searchForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const token = localStorage.getItem("token");
+      if (!token) {
+        alert("Veuillez vous connecter !");
+        window.location.href = "login.html";
+        return;
+      }
+
+      const params = new URLSearchParams();
+      if (document.getElementById("keyword").value) params.append("keyword", document.getElementById("keyword").value);
+      if (document.getElementById("created_by").value) params.append("created_by", document.getElementById("created_by").value);
+      if (document.getElementById("meta_key").value && document.getElementById("meta_value").value) {
+        params.append("meta_key", document.getElementById("meta_key").value);
+        params.append("meta_value", document.getElementById("meta_value").value);
+      }
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/search?" + params.toString(), {
+          method: "GET",
+          headers: {
+            "Authorization": "Bearer " + token
+          }
+        });
+
+        const data = await response.json();
+        const resultsList = document.getElementById("results");
+        resultsList.innerHTML = "";
+
+        if (data.results && data.results.length > 0) {
+          data.results.forEach(doc => {
+            const li = document.createElement("li");
+            li.className = "result-item";
+            li.innerHTML = `
+              <div class="result-info">
+                <div class="result-name">${doc.original_name}</div>
+                <div class="result-meta">Auteur: ${doc.created_by} | Date: ${new Date(doc.created_at).toLocaleDateString()}</div>
+              </div>
+              <div class="result-actions">
+                <a href="http://127.0.0.1:8000/download/${doc.doc_id}" target="_blank">
+                  <span>📥</span> Télécharger
+                </a>
+              </div>
+            `;
+            resultsList.appendChild(li);
+          });
+        } else {
+          resultsList.innerHTML = "<li class='no-results'>Aucun résultat trouvé</li>";
+        }
+      } catch (error) {
+        console.error("Erreur lors de la recherche:", error);
+        resultsList.innerHTML = "<li class='no-results'>Erreur lors de la recherche</li>";
+      }
+    });
+    
+    // Gestion de la déconnexion
+    document.getElementById("logoutBtn").addEventListener("click", function(e) {
+      e.preventDefault();
+      localStorage.removeItem("token");
+      window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>

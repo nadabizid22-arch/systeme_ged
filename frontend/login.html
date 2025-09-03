@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion - Système GED</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary-color: #2c3e50;
+      --secondary-color: #3498db;
+      --accent-color: #e74c3c;
+      --light-color: #ecf0f1;
+      --dark-color: #34495e;
+      --success-color: #27ae60;
+      --warning-color: #f39c12;
+      --border-radius: 8px;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background-image: linear-gradient(135deg, rgba(52, 152, 219, 0.1) 0%, rgba(52, 152, 219, 0) 100%);
+    }
+    
+    .login-container {
+      width: 100%;
+      max-width: 450px;
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+    }
+    
+    .login-header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 25px;
+      text-align: center;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .logo i {
+      font-size: 2.5rem;
+    }
+    
+    .logo h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+    
+    .login-header p {
+      opacity: 0.9;
+      margin-top: 5px;
+    }
+    
+    .login-form {
+      padding: 30px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark-color);
+    }
+    
+    .input-with-icon {
+      position: relative;
+    }
+    
+    .input-with-icon i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+    }
+    
+    .input-with-icon input {
+      width: 100%;
+      padding: 12px 15px 12px 45px;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    
+    .input-with-icon input:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+    
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .btn-primary {
+      background-color: var(--secondary-color);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background-color: #2980b9;
+      transform: translateY(-2px);
+    }
+    
+    .message {
+      padding: 15px;
+      border-radius: var(--border-radius);
+      margin: 20px 0;
+      text-align: center;
+      display: none;
+    }
+    
+    .message.success {
+      background-color: rgba(39, 174, 96, 0.1);
+      border: 1px solid var(--success-color);
+      color: var(--success-color);
+    }
+    
+    .message.error {
+      background-color: rgba(231, 76, 60, 0.1);
+      border: 1px solid var(--accent-color);
+      color: var(--accent-color);
+    }
+    
+    .login-footer {
+      text-align: center;
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+      color: #777;
+    }
+    
+    .system-info {
+      margin-top: 30px;
+      text-align: center;
+      color: #777;
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 480px) {
+      .login-container {
+        max-width: 100%;
+      }
+      
+      .login-form {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-header">
+      <div class="logo">
+        <i class="fas fa-archive"></i>
+        <h1>Système GED</h1>
+      </div>
+      <p>Veuillez vous connecter pour accéder à l'interface</p>
+    </div>
+    
+    <div class="login-form">
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="username">Nom d'utilisateur</label>
+          <div class="input-with-icon">
+            <i class="fas fa-user"></i>
+            <input type="text" id="username" placeholder="Entrez votre nom d'utilisateur" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <div class="input-with-icon">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="password" placeholder="Entrez votre mot de passe" required>
+          </div>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-sign-in-alt"></i>
+          Se connecter
+        </button>
+      </form>
+      
+      <div id="message" class="message"></div>
+    </div>
+    
+    <div class="login-footer">
+      <p>© 2025 Système GED - Tous droits réservés</p>
+    </div>
+  </div>
+  
+  <div class="system-info">
+    <p>Version 2.1.0 | Dernière mise à jour: 31/08/2025</p>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginForm = document.getElementById("loginForm");
+      const messageDiv = document.getElementById("message");
+      
+      // Vérifier si l'utilisateur est déjà connecté
+      const token = localStorage.getItem("token");
+      if (token) {
+        // Optionnel: vérifier la validité du token
+        window.location.href = "upload.html";
+      }
+      
+      loginForm.addEventListener("submit", async function(e) {
+        e.preventDefault();
+        
+        // Cacher les messages précédents
+        messageDiv.style.display = 'none';
+        messageDiv.className = 'message';
+        
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // Construire les données du formulaire
+        const formData = new URLSearchParams();
+        formData.append("username", username);
+        formData.append("password", password);
+
+        try {
+          // Afficher un indicateur de chargement
+          const submitBtn = loginForm.querySelector('button[type="submit"]');
+          const originalText = submitBtn.innerHTML;
+          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
+          submitBtn.disabled = true;
+
+          const response = await fetch("http://127.0.0.1:8000/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: formData.toString()
+          });
+
+          if (!response.ok) {
+            throw new Error("Nom d'utilisateur ou mot de passe incorrect");
+          }
+
+          const data = await response.json();
+
+          if (data.access_token) {
+            localStorage.setItem("token", data.access_token);
+            messageDiv.textContent = "✅ Connexion réussie ! Redirection en cours...";
+            messageDiv.className = 'message success';
+            messageDiv.style.display = 'block';
+            
+            // Redirection après login
+            setTimeout(() => {
+              window.location.href = "upload.html";
+            }, 1000);
+          }
+        } catch (err) {
+          messageDiv.textContent = "❌ " + err.message;
+          messageDiv.className = 'message error';
+          messageDiv.style.display = 'block';
+          
+          // Réactiver le bouton
+          const submitBtn = loginForm.querySelector('button[type="submit"]');
+          submitBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Se connecter';
+          submitBtn.disabled = false;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
